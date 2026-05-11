@@ -1,0 +1,6 @@
+@tubes_KPL_backend_HostAddress = http://localhost:5095
+
+GET {{tubes_KPL_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

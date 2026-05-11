@@ -1,0 +1,31 @@
+﻿services:
+  tubes-kpl-backend:
+    image: tubes-kpl-backend
+    build:
+      context: .
+      dockerfile: tubes-KPL-backend/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - default
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=tubes_kpl_db
+    hostname: "database"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tubes_kpl_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  default:
